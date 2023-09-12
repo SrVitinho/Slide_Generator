@@ -4,6 +4,7 @@ from pptx.util import Inches, Pt
 from icrawler.builtin import GoogleImageCrawler
 from pathlib import Path
 import os
+import PPRT_Aux as aux
 
 
 class Ppt:
@@ -32,7 +33,7 @@ class Ppt:
         filters = dict(
             size='=1980x1080')
 
-        current_path = Path().resolve().__str__()
+        current_path = '/home/2ec-user/script/'
         img_folder = current_path + '/Images/'
         background_path = img_folder
 
@@ -65,10 +66,9 @@ class Ppt:
         pic = slide.shapes.add_picture(image, left, top, height=Inches(4.5))'''
 
         # Build the Text Box
+        top, height = aux.get_sizes(self.resumos[self.page])
         left = Inches(0.75)
-        top = Inches(1.5) + Inches(4)
         width = Inches(9)
-        height = Inches(2)
         txBox = slide.shapes.add_textbox(left, top, width, height)
         tf = txBox.text_frame
 
@@ -85,4 +85,4 @@ class Ppt:
         self.page += 1
 
     def save(self):
-        self.prs.save('teste.pptx')
+        self.prs.save('presentation.pptx')
