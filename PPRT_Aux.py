@@ -11,6 +11,7 @@ def fix_lines(resumo):
         if len(line + word) < 80:
             line = line + " " + word
         else:
+            line = line + "\n"
             clean_resumos.append(line)
             line = word
 

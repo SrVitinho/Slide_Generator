@@ -8,7 +8,6 @@ region = 'sa-east-1'
 
 
 def get_wordx():
-
     BUCKET = 'inputbucketslide'
 
     s3 = session.resource('s3')
@@ -22,7 +21,7 @@ def get_wordx():
         input_bucket.download_file(Key=KEY, Filename=save_path)
     except Exception as err:
         print(err)
-        # add notification off error
+        # add notification of error
 
 
 def clean_bucket():
@@ -46,3 +45,9 @@ def kill_ec2():
         )
     except Exception as err:
         print(err)
+
+
+def send_ppt():
+    s3 = session.client('s3')
+    s3.upload_file(Filename='presentation.pptx', bucket='slide-output-bucket', key='presentation.txt')
+

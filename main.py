@@ -1,8 +1,6 @@
 import Text_Manipulation
 import Input
 from PowerPoint import Ppt
-from Text_Manipulation import get_keywords
-from Input import pdf_text
 from llama_querys import query_llama
 import AWS_operations
 
@@ -17,4 +15,5 @@ if __name__ == '__main__':
         prs.add_page(keywords[item][0])
     prs.save()
     AWS_operations.clean_bucket()
+    AWS_operations.send_ppt()
     AWS_operations.kill_ec2()
