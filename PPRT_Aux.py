@@ -4,27 +4,46 @@ import math
 
 def fix_lines(resumo):
     string_chunks = resumo.split()
+    print('len chunks = ' + len(string_chunks).__str__())
     line = ""
-    clean_resumos = []
-
+    current_size = 0
     for word in string_chunks:
-        if len(line + word) < 80:
+        if (current_size + len(word)) < 40:
             line = line + " " + word
+            current_size += len(word) + 1
         else:
-            line = line + "\n"
-            clean_resumos.append(line)
-            line = word
+            line = line + "\n " + word
+            current_size = 0
 
-    return clean_resumos
+    return line
 
 
 def get_sizes(resumo):
-    resumo_in_lines = fix_lines(resumo)
-    line_count = len(resumo_in_lines)
+    line_count = resumo.count('\n')
     if line_count <= 17:
-        variable_size_top = math.ceil(line_count / 19)
+        variable_size_top = math.ceil(line_count / 17)
     else:
         variable_size_top = 1
     top = Inches(1.5) + Inches(4) - Inches(variable_size_top * 4)
     height = Inches(2) + Inches(variable_size_top * 4)
     return top, height
+
+
+def get_text_pages(resumo):
+    list_resumos = []
+    if resumo.count('\n') >= 17:
+        while resumo.count('\n') >= 17:
+            line = (i for i, l in enumerate(resumo) if l == '\n')
+            next(line)
+
+            for x in range(17):
+                next(line)
+            index = next(line)
+            list_resumos.append(resumo[:index])
+            resumo = resumo[index:]
+        list_resumos.append(resumo)
+    else:
+        list_resumos.append(resumo)
+    print(len(list_resumos))
+    print('end')
+    return list_resumos

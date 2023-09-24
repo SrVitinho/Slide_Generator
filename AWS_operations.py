@@ -7,14 +7,14 @@ session = boto3.Session(aws_access_key_id=access_key, aws_secret_access_key=priv
 region = 'sa-east-1'
 
 
-def get_wordx():
+def get_files():
     BUCKET = 'inputbucketslide'
 
     s3 = session.resource('s3')
 
     input_bucket = s3.Bucket(BUCKET)
 
-    for my_bucket_object in input_bucket.objects.all():
+    for my_bucket_object in input_bucket.objects.filter(Prefix='word/'):
         KEY = my_bucket_object.key
     try:
         save_path = '/home/ec2-user/input_file/' + KEY
@@ -22,6 +22,7 @@ def get_wordx():
     except Exception as err:
         print(err)
         # add notification of error
+
 
 
 def clean_bucket():
@@ -35,7 +36,7 @@ def clean_bucket():
 
 
 def kill_ec2():
-    client = session.client('ec2')
+    client = session.client('ec2', region_name=region)
     try:
         client.stop_instances(
             InstanceIds=[
@@ -48,6 +49,10 @@ def kill_ec2():
 
 
 def send_ppt():
-    s3 = session.client('s3')
-    s3.upload_file(Filename='presentation.pptx', bucket='slide-output-bucket', key='presentation.txt')
+    BUCKET = 'slide-output-bucket'
+    s3 = session.resource('s3')
+    input_bucket = s3.Bucket(BUCKET)
+    KEY = "presentation.pptx"
+    save_path = '/home/ec2-user/output/' + KEY
+    input_bucket.upload_file(Key=KEY, Filename=save_path)
 
