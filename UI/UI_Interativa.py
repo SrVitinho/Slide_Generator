@@ -3,47 +3,21 @@ from tkinter import messagebox
 from tkinter import ttk
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
+import AWS_operations
+
 
 def mostrar_mensagem():
     messagebox.showinfo("Mensagem", "Deu certo!")
+
 
 # nomeando nossa ui
 root = tk.Tk()
 root.title("M.A.R.T.A")
 
-#selecionando arquivo
-def select_file():
-    filetypes = (
-        ('text files', '*.wordx'),
-        ('All files', '*.*')
-    )
-
-    filename = fd.askopenfilename(
-        title='Open a file',
-        initialdir='/',
-        filetypes=filetypes)
-
-    showinfo(
-        title='Selected File',
-        message=filename
-    )
-
-
-# open button
-open_button = ttk.Button(
-    root,
-    text='Open a File',
-    command=select_file
-)
-
-open_button.pack(expand=True)
-
-
-caminho_arquivo_selecionado = ""
 
 def select_file():
     filetypes = (
-        ('text files', '*.wordx'),
+        ('text files', '*.docx'),
         ('All files', '*.*')
     )
 
@@ -58,8 +32,20 @@ def select_file():
         message=caminho_arquivo_selecionado
     )
 
+
+# open button
+open_button = ttk.Button(
+    root,
+    text='Open a File',
+    command=select_file
+)
+
+open_button.pack(expand=True)
+
+
 # Função chamada quando o botão é clicado
 def exibir_texto():
+    global texto
     texto = entrada_texto.get()
     label_resultado.config(text="Texto inserido: " + texto)
 
@@ -80,12 +66,18 @@ botao_exibir.pack()
 label_resultado = tk.Label(root, text="")
 label_resultado.pack()
 
-#botao para enviar arquivos para a IA
+# botao para enviar arquivos para a IA
 texto_documento = tk.Text(root, height=10, width=40)
 texto_documento.pack(padx=20, pady=10)
 
-#vitinho! e na proxima linha que vc altera a funcao do botao enviar , logo apos o : command
-botao = tk.Button(root, text="Enviar arquivos!", command=showinfo)
+
+def send_data():
+    AWS_operations.send_wordx(caminho_arquivo_selecionado)
+    AWS_operations.send_email_address(texto)
+
+
+# vitinho! e na proxima linha que vc altera a funcao do botao enviar , logo apos o : command
+botao = tk.Button(root, text="Enviar arquivos!", command=send_data)
 botao.pack(padx=20, pady=20)
 
 root.mainloop()

@@ -24,7 +24,6 @@ def get_files():
         # add notification of error
 
 
-
 def clean_bucket():
     BUCKET = 'inputbucketslide'
 
@@ -56,3 +55,22 @@ def send_ppt():
     save_path = '/home/ec2-user/output/' + KEY
     input_bucket.upload_file(Key=KEY, Filename=save_path)
 
+
+def send_wordx(path):
+    BUCKET = 'inputbucketslide'
+    s3 = session.resource('s3')
+    input_bucket = s3.Bucket(BUCKET)
+    KEY = "word/input.wordx"
+    input_bucket.upload_file(Key=KEY, Filename=path)
+
+
+def send_email_address(email):
+    text_file = open("email.txt", "w")
+    text_file.write(email)
+    text_file.close()
+
+    BUCKET = 'inputbucketslide'
+    s3 = session.resource('s3')
+    input_bucket = s3.Bucket(BUCKET)
+    KEY = 'receiver/email.txt'
+    input_bucket.upload_file(Key=KEY, Filename="email.txt")

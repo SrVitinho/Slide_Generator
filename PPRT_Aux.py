@@ -8,7 +8,7 @@ def fix_lines(resumo):
     line = ""
     current_size = 0
     for word in string_chunks:
-        if (current_size + len(word)) < 40:
+        if (current_size + len(word)) < 35:
             line = line + " " + word
             current_size += len(word) + 1
         else:
@@ -20,7 +20,7 @@ def fix_lines(resumo):
 
 def get_sizes(resumo):
     line_count = resumo.count('\n')
-    if line_count <= 17:
+    if line_count <= 15:
         variable_size_top = math.ceil(line_count / 17)
     else:
         variable_size_top = 1
@@ -31,12 +31,11 @@ def get_sizes(resumo):
 
 def get_text_pages(resumo):
     list_resumos = []
-    if resumo.count('\n') >= 17:
-        while resumo.count('\n') >= 17:
+    if resumo.count('\n') >= 15:
+        while resumo.count('\n') >= 15:
             line = (i for i, l in enumerate(resumo) if l == '\n')
-            next(line)
 
-            for x in range(17):
+            for x in range(15):
                 next(line)
             index = next(line)
             list_resumos.append(resumo[:index])

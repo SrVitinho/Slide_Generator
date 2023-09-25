@@ -1,7 +1,7 @@
 from llama_cpp import Llama
 from tqdm import tqdm
 
-LLM = Llama(model_path="/home/ec2-user/llama_model.bin", n_ctx=1000, n_gpu_layers=-1)
+LLM = Llama(model_path="/home/ec2-user/llama_model.bin", n_ctx=1000, n_gpu_layers=-1, n_threads=8)
 
 
 def query_resumo_llm(topic):
