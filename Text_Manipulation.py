@@ -25,7 +25,7 @@ def clean_text(text):
 
 
 def get_keywords(text):
-    custom_kw_extractor = yake.KeywordExtractor(lan="pt", top=5)
+    custom_kw_extractor = yake.KeywordExtractor(lan="pt", top=10)
     keywords = custom_kw_extractor.extract_keywords(text)
 
     for kw in keywords:
@@ -46,9 +46,13 @@ def get_keywords(text):
 
     keyphrases = extractor.get_n_best(n=10)
 
-    for key in keyphrases:
-        print(key)
-    return keywords
+    topics = []
+
+    for x in range(10):
+        print(keyphrases[x])
+        topics.append(keywords[x])
+        topics.append(keyphrases[x])
+    return topics
 
 
 def clean_key_phrases(text):

@@ -31,13 +31,17 @@ def get_sizes(resumo):
 
 def get_text_pages(resumo):
     list_resumos = []
-    if resumo.count('\n') >= 15:
-        while resumo.count('\n') >= 15:
+    if resumo.count('\n') > 15:
+        while resumo.count('\n') > 15:
             line = (i for i, l in enumerate(resumo) if l == '\n')
 
             for x in range(15):
                 next(line)
-            index = next(line)
+            try:
+                index = next(line)
+            except Exception as err:
+                print(err)
+                index = len(resumo) - 1
             list_resumos.append(resumo[:index])
             resumo = resumo[index:]
         list_resumos.append(resumo)
